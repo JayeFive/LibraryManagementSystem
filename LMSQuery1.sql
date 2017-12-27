@@ -132,4 +132,4 @@ END
 SELECT * FROM Library.Book lb
 LEFT JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
 
-
+EXEC sp_rename 'Library.Book.PublisherName', 'PublisherID', 'COLUMN'
