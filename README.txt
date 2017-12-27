@@ -2,8 +2,19 @@
 
 
 #Todo
--Begin work on the borrower records
+
 -Begin work on branch records and book copies
+	-Start with populating the branch table with branches.
+	-Populate the book_copies table to give branches their books
+-Begin work on the borrower records
+	-Populate the borrower table with library goers.
+	-Populate the book_loans table with loaned books
+
+-Check to see that all reqruisites have been met
+-New Query to complete project requirements
+
+-Finish up README.txt with relevant project information
+
 
 #Project reqruisites
 - There is a book called 'The Lost Tribe' found in the 'Sharpstown' branch.
