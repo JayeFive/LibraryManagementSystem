@@ -6,21 +6,105 @@ USE LMS;
 
 EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'Mark Lee', 'Picador USA';
 
+
+-- Populate list of Publishers --
 EXEC [Library].[uspInsertPublisher] 
 	'Picador USA', 
 	'175 Fifth Avenue, New York, NY 10010', 
-	'800-221-7945'
+	'800-221-7945';
 
+EXEC [Library].[uspInsertPublisher] 
+	'Free Press',
+	'Defunct',
+	'n/a';
 
+EXEC [Library].[uspInsertPublisher] 
+	'New World Library',
+	'14 Pamaron Way # 1, Novato, CA 94949',
+	'415-884-2100';
 
+EXEC [Library].[uspInsertPublisher] 
+	'Random House',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
 
+EXEC [Library].[uspInsertPublisher] 
+	'Harper Collins',
+	'195 Broadway, New York, NY 10007.',
+	'800-242-7737';
 
-EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'West 26th Street Press';
-EXEC [Library].[uspInsertLibraryBook] 'The 7 Habits of Highly Effective People', 'Free Press';
+EXEC [Library].[uspInsertPublisher] 
+	'ReganBooks',
+	'Defunct',
+	'n/a';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Plume',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Little, Brown and Company',
+	'1290 6th Ave, New York, NY 10104',
+	'800-759-0190';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Tor Books',
+	'175 Fifth Avenue, New York, NY',
+	'n/a';
+
+EXEC [Library].[uspInsertPublisher] 
+	'W. W. Norton Company',
+	'500 5th Ave # 6, New York, NY 10110',
+	'212-354-5500';
+
+EXEC [Library].[uspInsertPublisher] 
+	'William Heinemann',
+	'P. O. Box 6926, Portsmouth, NH 03802',
+	'800-225-5800';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Viking Press',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Dell Publishing',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Penguin Random House',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Charles Scribner''s Sons',
+	'12 Lunar Drive, Woodbridge, CT 06525',
+	'800-877-4253';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Bobbs-Merrill Company',
+	'330 Hudson Street, Manhattan, New York 10013',
+	'202-909-4520';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Harvill Secker',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Doubleday',
+	'1745 Broadway, New York, NY 10019',
+	'212-782-9000';
+
+	
+
+EXEC [Library].[uspInsertLibraryBook] 'The 7 Habits of Highly Effective People', 'Steven R. Covey', 'Free Press';
 EXEC [Library].[uspInsertLibraryBook] 'The Power of Now: A Guide to Spiritual Enlightenment', 'New World Library';
 EXEC [Library].[uspInsertLibraryBook] 'Ready Player One', 'Random House';
 EXEC [Library].[uspInsertLibraryBook] 'The Alchemist', 'Harper Collins';
-EXEC [Library].[uspInsertLibraryBook] 'The Family', 'Regan Books';
+EXEC [Library].[uspInsertLibraryBook] 'The Family', 'ReganBooks';
 EXEC [Library].[uspInsertLibraryBook] 'Mastery', 'Plume';
 EXEC [Library].[uspInsertLibraryBook] 'Infinite Jest', 'Little, Brown and Company';
 EXEC [Library].[uspInsertLibraryBook] 'Ender''s Game', 'Tor Books';
