@@ -39,7 +39,7 @@ CREATE TABLE Library.BookLoans (
 	CardNo INT NOT NULL,
 	DateOut DATE NOT NULL,
 	DueDate DATE NOT NULL,
-	CONSTRAINT fk_bookid FOREIGN KEY (BookID) REFERENCES Library.Book (BookID),
+	CONSTRAINT fk_bookloan_bookid FOREIGN KEY (BookID) REFERENCES Library.Book (BookID),
 	CONSTRAINT fk_cardno FOREIGN KEY (CardNo) REFERENCES Library.Borrower (CardNo)
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE Library.BookCopies (
 	BookID INT NOT NULL,
 	BranchID INT NOT NULL,
 	NoOfCopies INT NOT NULL,
-	CONSTRAINT fk_bookid FOREIGN KEY (BookID) REFERENCES Library.Book (BookID)
+	CONSTRAINT fk_bookcopies_bookid FOREIGN KEY (BookID) REFERENCES Library.Book (BookID)
 );	
 
 
