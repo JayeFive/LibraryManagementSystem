@@ -62,7 +62,7 @@ CREATE TABLE Library.BookCopies (
 -- Enter a new book and check for duplicates --
 ALTER PROCEDURE Library.uspInsertLibraryBook
 	(@BookTitle VARCHAR(100),
-	@PublisherName VARCHAR(100))
+	 @PublisherName VARCHAR(100))
 AS
 BEGIN
    IF NOT EXISTS (SELECT * FROM Library.Book 
@@ -97,16 +97,58 @@ EXEC [Library].[uspInsertLibraryBook] 'Fight Club', 'W. W. Norton Company';
 
 
 
-SELECT 
-	* 
-	FROM Library.Book lb
-	INNER JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
 
--- Enter authors --
+-- Enter author based on non-duplicate and find primary key --
+ALTER PROCEDURE Library.uspInsertLibraryBookAuthors
+	(@BookTitle VARCHAR(100),
+	 @BookAuthor VARCHAR(100))
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM Library.Book
+                   WHERE BookTitle = @BookTitle)
+	BEGIN
+		DECLARE @BookID INT;
+		SET @BookID = (SELECT Library.Book.BookID
+						FROM Library.Book
+						WHERE BookTitle = @BookTitle
+						);
+		IF NOT EXISTS (SELECT *
+					   FROM Library.BookAuthors
+					   WHERE @BookID = Library.BookAuthors.BookID)
+		BEGIN
+			INSERT INTO Library.BookAuthors (BookID, AuthorName)
+			VALUES (@BookID, @BookAuthor)
+		END
+	END
+END
 
 
-INSERT INTO Library.BookAuthors
-	(BookID, AuthorName)
-	VALUES
-	(1, 'Mark Lee')
-;
+
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Lost Tribe', 'Mark Lee';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The 7 Habits of Highly Effective People', 'Steven R. Covey';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Power of Now: A Guide to Spiritual Enlightenment', 'Eckhart Tolle';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Ready Player One', 'Ernest Cline';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Alchemist', 'Paulo Coelho';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Family', 'Mario Puzo';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Mastery', 'George Leonard';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Infinite Jest', 'David Foster Wallace';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Ender''s Game', 'Orson Scott Card';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'A Game of Thrones', 'George R. R. Martin'; 
+EXEC [Library].[uspInsertLibraryBookAuthors] 'An Elegant Universe', 'Brian Greene'; 
+EXEC [Library].[uspInsertLibraryBookAuthors] 'C Programming: A Modern Approach', 'K. N. King';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'A Clockwork Orange', 'Anthony Burgess';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'On The Road', 'Jack Kerouac';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Deadeye Dick', 'Kurt Vonnegut';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Fear and Loathing in Las Vegas', 'Hunter S. Thompson';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Great Gatsby', 'F. Scott Fitzgerald';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Fountainhead', 'Ayn Rand';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Nineteen Eighty-Four', 'George Orwell';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'Fight Club', 'Chuck Palahniuk';
+
+
+
+
+SELECT * FROM Library.Book lb
+LEFT JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
+
+SELECT * FROM Library.BookAuthors
