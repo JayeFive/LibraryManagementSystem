@@ -1,0 +1,13 @@
+CREATE SCHEMA Library;
+GO
+
+CREATE TABLE Library.Book (
+	BookID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
+	BookTitle VARCHAR(100) NOT NULL,
+	PublisherName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Library.BookAuthors (
+	
+);
+
