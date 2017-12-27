@@ -7,9 +7,8 @@ GO
 CREATE TABLE Library.Book (
 	BookID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	BookTitle VARCHAR(100) NOT NULL,
-	PublisherName VARCHAR(100) NOT NULL
+	PublisherID INT NOT NULL
 );
-
 
 CREATE TABLE Library.LibraryBranch (
 	BranchID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
@@ -61,48 +60,51 @@ CREATE TABLE Library.BookCopies (
 **********************/
 
 
--- Enter a new book and check for duplicates
--- SYNTAX: [Library].[uspInsertLibraryBook] 'Book Title', 'Publisher Name';
+/* Enter a new book and check for duplicates
+   SYNTAX: EXEC [Library].[uspInsertLibraryBook] 
+           '<Book Title>', '<Author's Name>', '<Publisher Name>';
+*/
 ALTER PROCEDURE Library.uspInsertLibraryBook
 	(@BookTitle VARCHAR(100),
+	 @AuthorName VARCHAR(100),
 	 @PublisherName VARCHAR(100))
 AS
 BEGIN
-   IF NOT EXISTS (SELECT * FROM Library.Book 
-                   WHERE BookTitle = @BookTitle
-                   AND PublisherName = @PublisherName)
-   BEGIN
-       INSERT INTO Library.Book (BookTitle, PublisherName)
-       VALUES (@BookTitle, @PublisherName)
-   END
-END
-
-
-
--- Enter author based on non-duplicate and find primary key --
--- SYNTAX: [Library].[uspInsertLibraryBookAuthors] 'Book Title', 'Author's Name';
-ALTER PROCEDURE Library.uspInsertLibraryBookAuthors
-	(@BookTitle VARCHAR(100),
-	 @BookAuthor VARCHAR(100))
-AS
-BEGIN
-	IF EXISTS (SELECT * FROM Library.Book
-                   WHERE BookTitle = @BookTitle)
+	-- Check to see if the publisher is in record and terminate the PROC if false--
+	IF NOT EXISTS (SELECT * FROM Library.Publisher
+				   WHERE PublisherName = @PublisherName)
 	BEGIN
+		PRINT '*Publisher does not yet exist in the database.' + CHAR(13) + 
+		'*Please add the publisher record using:' + CHAR(13) + 
+		'EXEC [Library].[uspInsertPublisher] ''<Publisher Name>'', ''<Address>'', ''<Phone>''' + CHAR(13) +
+		'*The requested publisher is "' + @PublisherName + '".';
+		RETURN;
+	END
+
+	-- Check for the existance of book record to prevent duplicates --
+	IF NOT EXISTS (SELECT * FROM Library.Book 
+						WHERE BookTitle = @BookTitle)
+	BEGIN
+		-- Find the appropriate publisher ID from the publisher table --
+		DECLARE @PublisherID INT;
+		SET @PublisherID = (SELECT PublisherID FROM Library.Publisher
+							WHERE PublisherName = @PublisherName);
+		
+		-- Create the book record --
+		INSERT INTO Library.Book (BookTitle, PublisherID)
+			VALUES (@BookTitle, @PublisherID);
+		
+		-- Create the author record, find BookID by matching BookTitle --
 		DECLARE @BookID INT;
 		SET @BookID = (SELECT Library.Book.BookID
 						FROM Library.Book
 						WHERE BookTitle = @BookTitle
 						);
-		IF NOT EXISTS (SELECT *
-					   FROM Library.BookAuthors
-					   WHERE @BookID = Library.BookAuthors.BookID)
-		BEGIN
-			INSERT INTO Library.BookAuthors (BookID, AuthorName)
-			VALUES (@BookID, @BookAuthor)
-		END
+		INSERT INTO Library.BookAuthors (BookID, AuthorName)
+			VALUES (@BookID, @AuthorName);
 	END
 END
+
 
 
 -- Enter a publisher --
@@ -122,14 +124,3 @@ BEGIN
 END
 
 
-
-
-
-
-
-
-
-SELECT * FROM Library.Book lb
-LEFT JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
-
-EXEC sp_rename 'Library.Book.PublisherName', 'PublisherID', 'COLUMN'

@@ -4,6 +4,17 @@ USE LMS;
 
 -- Insert records into Library.Book --
 
+EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'Mark Lee', 'Picador USA';
+
+EXEC [Library].[uspInsertPublisher] 
+	'Picador USA', 
+	'175 Fifth Avenue, New York, NY 10010', 
+	'800-221-7945'
+
+
+
+
+
 EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'West 26th Street Press';
 EXEC [Library].[uspInsertLibraryBook] 'The 7 Habits of Highly Effective People', 'Free Press';
 EXEC [Library].[uspInsertLibraryBook] 'The Power of Now: A Guide to Spiritual Enlightenment', 'New World Library';
@@ -24,8 +35,13 @@ EXEC [Library].[uspInsertLibraryBook] 'The Great Gatsby', 'Charles Scribner''s S
 EXEC [Library].[uspInsertLibraryBook] 'The Fountainhead', 'Bobbs-Merrill Company';
 EXEC [Library].[uspInsertLibraryBook] 'Nineteen Eighty-Four', 'Harvill Secker';
 EXEC [Library].[uspInsertLibraryBook] 'Fight Club', 'W. W. Norton Company';
+EXEC [Library].[uspInsertLibraryBook] 'The Stand', 'Doubleday';
+EXEC [Library].[uspInsertLibraryBook] 'The Shining', 'Doubleday';
 
 
+
+/* I am starting to realize that I could probably join the 2 procs together into one
+   happy little proc that has 3 parameters instead of 2 */
 
 -- Insert records into Library.BookAuthors --
 EXEC [Library].[uspInsertLibraryBookAuthors] 'The Lost Tribe', 'Mark Lee';
@@ -48,3 +64,5 @@ EXEC [Library].[uspInsertLibraryBookAuthors] 'The Great Gatsby', 'F. Scott Fitzg
 EXEC [Library].[uspInsertLibraryBookAuthors] 'The Fountainhead', 'Ayn Rand';
 EXEC [Library].[uspInsertLibraryBookAuthors] 'Nineteen Eighty-Four', 'George Orwell';
 EXEC [Library].[uspInsertLibraryBookAuthors] 'Fight Club', 'Chuck Palahniuk';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Stand', 'Stephen King';
+EXEC [Library].[uspInsertLibraryBookAuthors] 'The Shining', 'Stephen King';
