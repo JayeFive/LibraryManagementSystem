@@ -2,7 +2,6 @@
 
 
 #Todo
--Refactor the two book insertion procs into one with 3 parameters:
-	1. BookTitle 
-	2. BookPublisher
-	3. BookAuthor
+-Finish Data Entry
+-Begin work on the borrower records
+-Begin work on branch records and book copies
