@@ -10,6 +10,7 @@ CREATE TABLE Library.Book (
 	PublisherName VARCHAR(100) NOT NULL
 );
 
+
 CREATE TABLE Library.LibraryBranch (
 	BranchID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	BranchName VARCHAR(100) NOT NULL,
@@ -18,9 +19,9 @@ CREATE TABLE Library.LibraryBranch (
 
 CREATE TABLE Library.Borrower (
 	CardNo INT PRIMARY KEY NOT NULL IDENTITY (1,1),
-	Name VARCHAR(100) NOT NULL,
-	Address VARCHAR(100) NOT NULL,
-	Phone VARCHAR(100) NOT NULL,
+	BorrowerName VARCHAR(100) NOT NULL,
+	BorrowerAddress VARCHAR(100) NOT NULL,
+	BorrowerPhone VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE Library.BookAuthors (
@@ -30,9 +31,10 @@ CREATE TABLE Library.BookAuthors (
 );
 
 CREATE TABLE Library.Publisher (
-	Name VARCHAR(100) PRIMARY KEY NOT NULL,
-	Address VARCHAR(100) NOT NULL,
-	Phone VARCHAR(100) NOT NULL,
+	PublisherID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
+	PublisherName VARCHAR(100) NOT NULL,
+	PublisherAddress VARCHAR(100) NOT NULL,
+	PublisherPhone VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE Library.BookLoans (
@@ -59,7 +61,8 @@ CREATE TABLE Library.BookCopies (
 **********************/
 
 
--- Enter a new book and check for duplicates --
+-- Enter a new book and check for duplicates
+-- SYNTAX: [Library].[uspInsertLibraryBook] 'Book Title', 'Publisher Name';
 ALTER PROCEDURE Library.uspInsertLibraryBook
 	(@BookTitle VARCHAR(100),
 	 @PublisherName VARCHAR(100))
@@ -76,10 +79,8 @@ END
 
 
 
-
-
-
 -- Enter author based on non-duplicate and find primary key --
+-- SYNTAX: [Library].[uspInsertLibraryBookAuthors] 'Book Title', 'Author's Name';
 ALTER PROCEDURE Library.uspInsertLibraryBookAuthors
 	(@BookTitle VARCHAR(100),
 	 @BookAuthor VARCHAR(100))
@@ -104,6 +105,21 @@ BEGIN
 END
 
 
+-- Enter a publisher --
+-- SYNTAX: [Library].[uspInsertPublisher] 'Publisher Name', 'Address', 'Phone';
+ALTER PROCEDURE Library.uspInsertPublisher
+	(@PublisherName VARCHAR(100),
+	 @PublisherAddress VARCHAR(100),
+	 @PublisherPhone VARCHAR(100))
+AS
+BEGIN
+   IF NOT EXISTS (SELECT * FROM Library.Publisher
+                   WHERE PublisherName = @PublisherName)
+   BEGIN
+       INSERT INTO Library.Publisher (PublisherName, PublisherAddress, PublisherPhone)
+       VALUES (@PublisherName, @PublisherAddress, @PublisherPhone)
+   END
+END
 
 
 
@@ -116,4 +132,4 @@ END
 SELECT * FROM Library.Book lb
 LEFT JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
 
-SELECT * FROM Library.BookAuthors
+
