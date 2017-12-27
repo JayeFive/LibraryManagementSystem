@@ -1,21 +1,23 @@
+USE LMS;
+
 CREATE SCHEMA Library;
 GO
 
 -- Create Tables --
 CREATE TABLE Library.Book (
-	BookID INT PRIMARY KEY NOT NULL,
+	BookID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	BookTitle VARCHAR(100) NOT NULL,
 	PublisherName VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Library.LibraryBranch (
-	BranchID INT PRIMARY KEY NOT NULL,
+	BranchID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	BranchName VARCHAR(100) NOT NULL,
 	Address VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Library.Borrower (
-	CardNo INT PRIMARY KEY NOT NULL,
+	CardNo INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	Name VARCHAR(100) NOT NULL,
 	Address VARCHAR(100) NOT NULL,
 	Phone VARCHAR(100) NOT NULL,
@@ -51,3 +53,60 @@ CREATE TABLE Library.BookCopies (
 );	
 
 
+
+/**********************
+*	Populate Tables   *
+**********************/
+
+
+-- Enter a new book and check for duplicates --
+ALTER PROCEDURE Library.uspInsertLibraryBook
+	(@BookTitle VARCHAR(100),
+	@PublisherName VARCHAR(100))
+AS
+BEGIN
+   IF NOT EXISTS (SELECT * FROM Library.Book 
+                   WHERE BookTitle = @BookTitle
+                   AND PublisherName = @PublisherName)
+   BEGIN
+       INSERT INTO Library.Book (BookTitle, PublisherName)
+       VALUES (@BookTitle, @PublisherName)
+   END
+END
+
+EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'West 26th Street Press';
+EXEC [Library].[uspInsertLibraryBook] 'The 7 Habits of Highly Effective People', 'Free Press';
+EXEC [Library].[uspInsertLibraryBook] 'The Power of Now: A Guide to Spiritual Enlightenment', 'New World Library';
+EXEC [Library].[uspInsertLibraryBook] 'Ready Player One', 'Random House';
+EXEC [Library].[uspInsertLibraryBook] 'The Alchemist', 'Harper Collins';
+EXEC [Library].[uspInsertLibraryBook] 'The Family', 'Regan Books';
+EXEC [Library].[uspInsertLibraryBook] 'Mastery', 'Plume';
+EXEC [Library].[uspInsertLibraryBook] 'Infinite Jest', 'Little, Brown and Company';
+EXEC [Library].[uspInsertLibraryBook] 'Ender''s Game', 'Tor Books';
+EXEC [Library].[uspInsertLibraryBook] 'A Game of Thrones', 'Penguin Random House';
+EXEC [Library].[uspInsertLibraryBook] 'An Elegant Universe', 'W. W. Norton Company';
+EXEC [Library].[uspInsertLibraryBook] 'C Programming: A Modern Approach', 'W. W. Norton Company';
+EXEC [Library].[uspInsertLibraryBook] 'A Clockwork Orange', 'William Heinemann';
+EXEC [Library].[uspInsertLibraryBook] 'On The Road', 'Viking Press';
+EXEC [Library].[uspInsertLibraryBook] 'Deadeye Dick', 'Dell Publishing';
+EXEC [Library].[uspInsertLibraryBook] 'Fear and Loathing in Las Vegas', 'Random House';
+EXEC [Library].[uspInsertLibraryBook] 'The Great Gatsby', 'Charles Scribner''s Sons';
+EXEC [Library].[uspInsertLibraryBook] 'The Fountainhead', 'Bobbs-Merrill Company';
+EXEC [Library].[uspInsertLibraryBook] 'Nineteen Eighty-Four', 'Harvill Secker';
+EXEC [Library].[uspInsertLibraryBook] 'Fight Club', 'W. W. Norton Company';
+
+
+
+SELECT 
+	* 
+	FROM Library.Book lb
+	INNER JOIN Library.BookAuthors ba ON lb.BookID = ba.BookID;
+
+-- Enter authors --
+
+
+INSERT INTO Library.BookAuthors
+	(BookID, AuthorName)
+	VALUES
+	(1, 'Mark Lee')
+;
