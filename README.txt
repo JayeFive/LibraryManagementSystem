@@ -9,9 +9,9 @@ Line160 -- Find a better way to deal with needing to fill the .NoOfOrders column
 
 -Begin work on branch records and book copies
 	*-Populate the branch table with branches.
-	-Populate the book_copies table to give branches their books
+	*-Populate the book_copies table to give branches their books
 -Begin work on the borrower records
-	-Populate the borrower table with library goers.
+	*-Populate the borrower table with library goers.
 	-Populate the book_loans table with loaned books
 
 -Check to see that all reqruisites have been met
