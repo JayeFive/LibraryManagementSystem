@@ -50,6 +50,7 @@ CREATE TABLE Library.BookCopies (
 	BookID INT NOT NULL,
 	BranchID INT NOT NULL,
 	NoOfCopies INT NOT NULL,
+	CopiesLoaned INT DEFAULT 0,
 	CONSTRAINT fk_bookcopies_bookid FOREIGN KEY (BookID) REFERENCES Library.Book (BookID)
 );	
 
@@ -169,3 +170,5 @@ BEGIN
 			VALUES (@BorrowerName, @BorrowerAddress, @BorrowerPhone);	
 	END
 END
+
+

@@ -172,7 +172,7 @@ UPDATE Library.BookCopies
 	SET Library.BookCopies.NoOfCopies = abs(checksum(NewId()) % 10) + 5 -- rand(5,14)
 WHERE  Library.BookCopies.NoOfCopies IS NOT NULL
 
-
+SELECT * FROM Library.BookCopies
 
 
 
@@ -203,33 +203,42 @@ SELECT * FROM Library.Borrower;
 
 
 
--- Populate the Library.BookLoans table --
+-- Populate the BookLoans table with random data --
 
 
+DECLARE @i INT = 0;
+DECLARE @totalLoaned INT = 250;	-- Number of books to be loaned. dB contains 1225 books
+DECLARE @bookID INT;
+DECLARE @branchID INT;
+DECLARE @borrower INT;
+DECLARE @dateOutStart DATE = '2017-10-1'; DECLARE @dateOutEnd DATE = '2017-12-28';
+DECLARE @dueDateStart DATE = '2017-12-29'; DECLARE @dueDateEnd DATE = '2018-3-31';
+DECLARE @dateOut DATE;	
+DECLARE @dueDate DATE;
+
+WHILE @i < @totalLoaned		
+BEGIN
+	SET @bookID = abs(checksum(NewId()) % 22) + 64	-- Random bookID
+	SET @branchID = abs(checksum(NewId()) % 6) + 1	-- Random branchID
+	IF (SELECT CopiesLoaned FROM Library.BookCopies 
+		WHERE BookID = @BookID
+		AND BranchID = @branchID) < (SELECT NoOfCopies FROM Library.BookCopies
+									 WHERE BookID = @BookID
+									 AND BranchID = @branchID)	
+	BEGIN
+		SET @borrower = abs(checksum(NewId()) % 10) + 1 -- Random borrower
+		SET @dateOut = dateadd(day,						-- Random date of borrowing
+			rand(checksum(newid()))*(1+datediff(day, @dateOutStart, @dateOutEnd)),
+			@dateOutEnd);
+		SET @dueDate = dateadd(day,						-- Random due date
+			rand(checksum(newid()))*(1+datediff(day, @dueDateStart, @dueDateEnd)),
+			@dueDateEnd);
+		INSERT INTO Library.BookLoans (BookID, BranchID, CardNo, DateOut, DueDate)
+			VALUES (@bookID, @branchID, @borrower, @dateOut, @dueDate);
+	END
+	SET @i += 1;
+END
 
 
-SELECT * FROM Library.BookLoans;
-
-
-	
-	
-	SELECT * FROM Library.BookCopies
-
-	DELETE Library.BookCopies
-	WHERE Library.BookCopies.BookID IS NOT NULL
-
-
-
-
-	SELECT * FROM Library.BookCopies
-	SELECT * FROM Library.Book
-
-
-
-
-
-
-
--- Populate the library card holders table --
-
-
+SELECT * FROM Library.BookLoans
+SELECT COUNT(*) FROM Library.LibraryBranch
