@@ -136,7 +136,7 @@ END
    SYNTAX: [Library].[uspInsertLibraryBranch]
 		   '<Branch Name>', '<Branch Address>'
 */
-CREATE PROCEDURE Library.uspInsertLibraryBranch
+ALTER PROCEDURE Library.uspInsertLibraryBranch
 	(@BranchName VARCHAR(100),
 	 @BranchAddress VARCHAR(100))
 AS
@@ -149,3 +149,6 @@ BEGIN
 			VALUES (@BranchName, @BranchAddress);
 	END
 END
+
+
+

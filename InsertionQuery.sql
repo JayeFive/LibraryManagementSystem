@@ -148,4 +148,47 @@ EXEC [Library].[uspInsertLibraryBranch]
 
 SELECT * FROM Library.LibraryBranch;
 
+
+-- Population of branches with books using loops and random numbers --
+/* I am going to go ahead and give each branch every book in the table with a
+   various number of copies */
+
+-- Find the number of branches and save to @branchCount --
+DECLARE @branchCount INT = (SELECT COUNT(*) FROM Library.LibraryBranch);
+DECLARE @i INT = 1;
+
+-- Give each library branch 1 single copy of each book --
+WHILE @i <= @branchCount
+BEGIN
+	SELECT BranchID FROM Library.BookCopies
+	INSERT INTO Library.BookCopies (BookID, BranchID, NoOfCopies)
+		-- This is a bit hackish considering it only works if the branch IDs are 1-6 --
+		SELECT BookID, @i, 1 FROM Library.Book;
+	SET @i += 1;
+END
+
+-- Now set a random number of copies for each book in each library branch --   
+UPDATE Library.BookCopies
+	SET Library.BookCopies.NoOfCopies = abs(checksum(NewId()) % 10) + 5 -- rand(5,14)
+WHERE  Library.BookCopies.NoOfCopies IS NOT NULL
+
+
+	
+	
+	SELECT * FROM Library.BookCopies
+
+
+
+
+	SELECT * FROM Library.BookCopies
+	SELECT * FROM Library.Book
+
+
+
+
+
+
+
 -- Populate the library card holders table --
+
+
