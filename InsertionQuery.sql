@@ -197,6 +197,9 @@ EXEC [Library].[uspInsertLibraryBorrower]
 	 'Kim R Wilkinson', '4677 Woodland Terrace, Portland, OR, 97201', '916-875-1852';
 EXEC [Library].[uspInsertLibraryBorrower]
 	 'Jason L Terry', '421 Heron Way, Portland, OR, 97232', '503-810-2869';
+-- The only card holder with no books checked out --
+EXEC [Library].[uspInsertLibraryBorrower]
+	'Idun Reed', '567 Illiterate Rd, Portland, OR, 97206', '503-595-5848';
 
 SELECT * FROM Library.Borrower;
 
@@ -204,8 +207,6 @@ SELECT * FROM Library.Borrower;
 
 
 -- Populate the BookLoans table with random data --
-
-
 DECLARE @i INT = 0;
 DECLARE @totalLoaned INT = 250;	-- Number of books to be loaned. dB contains 1225 books
 DECLARE @bookID INT;
@@ -226,6 +227,9 @@ BEGIN
 									 WHERE BookID = @BookID
 									 AND BranchID = @branchID)	
 	BEGIN
+		UPDATE Library.BookCopies
+			SET CopiesLoaned += 1
+			WHERE BookID = @bookID AND BranchID = @branchID;
 		SET @borrower = abs(checksum(NewId()) % 10) + 1 -- Random borrower
 		SET @dateOut = dateadd(day,						-- Random date of borrowing
 			rand(checksum(newid()))*(1+datediff(day, @dateOutStart, @dateOutEnd)),
@@ -239,6 +243,5 @@ BEGIN
 	SET @i += 1;
 END
 
-
 SELECT * FROM Library.BookLoans
-SELECT COUNT(*) FROM Library.LibraryBranch
+
