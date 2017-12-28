@@ -152,3 +152,17 @@ END
 
 
 
+-- Populate the borrowers table with random records --
+ALTER PROCEDURE Library.uspInsertLibraryBorrower
+	(@BorrowerName VARCHAR(100),
+	 @BorrowerAddress VARCHAR(100),
+	 @BorrowerPhone VARCHAR(100))
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM Library.Borrower
+				   WHERE Borrower.BorrowerName = @BorrowerName)
+	BEGIN
+		INSERT INTO Library.Borrower (BorrowerName, BorrowerAddress, BorrowerPhone)
+			VALUES (@BorrowerName, @BorrowerAddress, @BorrowerPhone);	
+	END
+END
