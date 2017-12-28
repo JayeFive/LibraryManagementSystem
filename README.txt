@@ -3,8 +3,12 @@
 
 #Todo
 
+*InsertionQuery.sql 
+Line160 -- Find a better way to deal with needing to fill the .NoOfOrders column with 1s to
+    	   avoid the "cannot be NULL" error.
+
 -Begin work on branch records and book copies
-	-Start with populating the branch table with branches.
+	*-Populate the branch table with branches.
 	-Populate the book_copies table to give branches their books
 -Begin work on the borrower records
 	-Populate the borrower table with library goers.
@@ -17,12 +21,12 @@
 
 
 #Project reqruisites
-- There is a book called 'The Lost Tribe' found in the 'Sharpstown' branch.
-- There is a library branch called 'Sharpstown' and one called 'Central'.
-- There are at least 20 books in the BOOK table.
-- There are at least 10 authors in the BOOK_AUTHORS table.
-- Each library branch has at least 10 book titles, and at least two copies of each of those titles.
+*- There is a book called 'The Lost Tribe' found in the 'Sharpstown' branch.
+*- There is a library branch called 'Sharpstown' and one called 'Central'.
+*- There are at least 20 books in the BOOK table.
+*- There are at least 10 authors in the BOOK_AUTHORS table.
+*- Each library branch has at least 10 book titles, and at least two copies of each of those titles.
 - There are at least 8 borrowers in the BORROWER table, and at least 2 of those borrowers have more than 5 books loaned to them.
-- There are at least 4 branches in the LIBRARY_BRANCH table.
+*- There are at least 4 branches in the LIBRARY_BRANCH table.
 - There are at least 50 loans in the BOOK_LOANS table.
-- There must be at least two books written by 'Stephen King' located at the 'Central' branch.
+*- There must be at least two books written by 'Stephen King' located at the 'Central' branch.
