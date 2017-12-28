@@ -92,6 +92,7 @@ EXEC [Library].[uspInsertPublisher]
 	'1745 Broadway, New York, NY 10019',
 	'212-782-9000';
 
+SELECT * FROM Library.Publisher;
 
 -- Insert records into Library.Book --
 EXEC [Library].[uspInsertLibraryBook] 'The Lost Tribe', 'Mark Lee', 'Picador USA';
@@ -117,3 +118,34 @@ EXEC [Library].[uspInsertLibraryBook] 'Fight Club', 'Chuck Palahniuk', 'W. W. No
 EXEC [Library].[uspInsertLibraryBook] 'The Stand', 'Stephen King', 'Doubleday';
 EXEC [Library].[uspInsertLibraryBook] 'The Shining', 'Stephen King', 'Doubleday';
 
+SELECT * FROM Library.Book;
+
+
+-- Populate the library branches table --
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'Sharpstown', 
+	 '2648 Skinner Hollow Road, Portland, OR, 97207';
+
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'Central',
+	 '310 SW 4th Ave Suite 412, Portland, OR 97204';
+
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'North Portland Library',
+	 '512 N Killingsworth St, Portland, OR 97217';
+
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'Hillsdale Library',
+	 '1525 SW Sunset Blvd, Portland, OR 97239';	
+
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'Woodstock Library',
+	 '6008 SE 49th Ave, Portland, OR 97206';
+
+EXEC [Library].[uspInsertLibraryBranch] 
+	 'Gregory Heights Library',
+	 ' 7921 NE Sandy Blvd, Portland, OR 97213';
+
+SELECT * FROM Library.LibraryBranch;
+
+-- Populate the library card holders table --

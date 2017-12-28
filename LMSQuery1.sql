@@ -13,7 +13,7 @@ CREATE TABLE Library.Book (
 CREATE TABLE Library.LibraryBranch (
 	BranchID INT PRIMARY KEY NOT NULL IDENTITY (1,1),
 	BranchName VARCHAR(100) NOT NULL,
-	Address VARCHAR(100) NOT NULL
+	BranchAddress VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Library.Borrower (
@@ -59,8 +59,13 @@ CREATE TABLE Library.BookCopies (
 *	Populate Tables   *
 **********************/
 
+/* It seems to be well known that the IF EXISTS command for preventing duplicates
+   within tables can catch a race condition with potential data loss, but in the
+   the case of this database, there is only one dB admin and thus a more verbose
+   set of language to prevent data loss is out of the scope of this project */
 
-/* Enter a new book and check for duplicates
+
+/* Manual book record entry --
    SYNTAX: EXEC [Library].[uspInsertLibraryBook] 
            '<Book Title>', '<Author's Name>', '<Publisher Name>';
 */
@@ -107,19 +112,40 @@ END
 
 
 
--- Enter a publisher --
--- SYNTAX: [Library].[uspInsertPublisher] 'Publisher Name', 'Address', 'Phone';
+/* Manual publisher record entry -- 
+   SYNTAX: [Library].[uspInsertPublisher] 
+		   '<Publisher Name>', '<Address>', '<Phone>'
+*/
 ALTER PROCEDURE Library.uspInsertPublisher
 	(@PublisherName VARCHAR(100),
 	 @PublisherAddress VARCHAR(100),
 	 @PublisherPhone VARCHAR(100))
 AS
 BEGIN
-   IF NOT EXISTS (SELECT * FROM Library.Publisher
+	-- Check for the existance of a publisher record to prevent duplicates --
+	IF NOT EXISTS (SELECT * FROM Library.Publisher
                    WHERE PublisherName = @PublisherName)
-   BEGIN
-       INSERT INTO Library.Publisher (PublisherName, PublisherAddress, PublisherPhone)
-       VALUES (@PublisherName, @PublisherAddress, @PublisherPhone)
-   END
+	BEGIN
+		INSERT INTO Library.Publisher (PublisherName, PublisherAddress, PublisherPhone)
+			VALUES (@PublisherName, @PublisherAddress, @PublisherPhone);
+	END
 END
 
+
+/* Manual library branch record entry --
+   SYNTAX: [Library].[uspInsertLibraryBranch]
+		   '<Branch Name>', '<Branch Address>'
+*/
+CREATE PROCEDURE Library.uspInsertLibraryBranch
+	(@BranchName VARCHAR(100),
+	 @BranchAddress VARCHAR(100))
+AS
+BEGIN
+	-- Check for the existance of a library branch to prevent duplicates --
+	IF NOT EXISTS (SELECT * FROM Library.LibraryBranch
+				   WHERE BranchName = @BranchName)
+	BEGIN
+		INSERT INTO Library.LibraryBranch (BranchName, BranchAddress)
+			VALUES (@BranchName, @BranchAddress);
+	END
+END
