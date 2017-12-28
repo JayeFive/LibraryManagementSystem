@@ -152,7 +152,10 @@ END
 
 
 
--- Populate the borrowers table with random records --
+/* Manual Entry of Library.Borrowers table
+   SYNTAX: [Library].[uspInsertLibraryBorrower]
+		   '<Borrower Name>', '<Address>', '<Phone>'	
+*/
 ALTER PROCEDURE Library.uspInsertLibraryBorrower
 	(@BorrowerName VARCHAR(100),
 	 @BorrowerAddress VARCHAR(100),

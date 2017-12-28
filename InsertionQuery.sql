@@ -173,9 +173,50 @@ UPDATE Library.BookCopies
 WHERE  Library.BookCopies.NoOfCopies IS NOT NULL
 
 
+
+
+
+-- Populate the borrowers table with random records --
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Brendan T Griffin', '2459 Illinois Avenue, Portland, OR, 97205', '503-713-4218';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'David J Anderson', '1642 Karen Lane, Portland, OR, 97230', '503-201-6280';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Regan J Carroll', '2144 Kincheloe Road, Portland, OR, 97204', '503-459-2240';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Sandra R Anderson', '1764 Heron Way, Portland, OR, 97232', '503-818-4666';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Michael L Avila', '2267 Hope Street, Portland, OR, 97230', '971-219-0558';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Eugene H Roberts', '2689 Godfrey Street, Portland, OR, 97205', '503-607-5509';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Ora J Tye', '1072 Hope Street, Portland, OR, 97232', '971-533-3687';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Ricky J Johnson', '3579 Kincheloe Road, Portland, OR, 97205', '503-499-5314';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Kim R Wilkinson', '4677 Woodland Terrace, Portland, OR, 97201', '916-875-1852';
+EXEC [Library].[uspInsertLibraryBorrower]
+	 'Jason L Terry', '421 Heron Way, Portland, OR, 97232', '503-810-2869';
+
+SELECT * FROM Library.Borrower;
+
+
+
+
+-- Populate the Library.BookLoans table --
+
+
+
+
+SELECT * FROM Library.BookLoans;
+
+
 	
 	
 	SELECT * FROM Library.BookCopies
+
+	DELETE Library.BookCopies
+	WHERE Library.BookCopies.BookID IS NOT NULL
 
 
 
